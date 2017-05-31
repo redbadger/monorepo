@@ -24,6 +24,18 @@ jobs:
       - run:
           name: test
           command: echo "Build Web"
+  build-shared:
+    working_directory: ~/shared
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: wait
+          command: sleep 30
+      - run:
+          name: test
+          command: echo "Build Shared"
   deploy:
     working_directory: ~/build
     docker:
@@ -41,8 +53,12 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build-web
-      - build-api
+      - build-web:
+          requires:
+            - build-shared
+      - build-api:
+          requires:
+            - build-shared
       - deploy:
           requires:
             - build-web
