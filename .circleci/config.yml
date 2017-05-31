@@ -12,3 +12,24 @@ jobs:
       - run:
           name: test
           command: echo "Test"
+  deploy:
+    working_directory: ~/build
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - run:
+          name: test
+          command: echo "Test"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
