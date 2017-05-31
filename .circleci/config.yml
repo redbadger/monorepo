@@ -1,34 +1,14 @@
----
 version: 2
 jobs:
   build:
+    working_directory: ~/build
     docker:
-      -
-        image: "node:7.10"
+      - image: circleci/node:4.8.2
     steps:
       - checkout
-      -
-        run:
-          command: "npm version"
-          name: "Run build"
-    workDir: /root/your-repo
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - checkout
-      - "echo \"Deploying\""
-    working_directory: /home/your-repo
-workflows:
-  all:
-    jobs:
-      - build-api
-      - build-web
-      -
-        deploy-api:
-          requires:
-            - build-api
-      -
-        deploy-web:
-          requires:
-            - build-web
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - run:
+          name: test
+          command: echo "Test"
