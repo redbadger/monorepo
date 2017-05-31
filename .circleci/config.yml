@@ -19,7 +19,6 @@ jobs:
       - checkout
       - "echo \"Deploying\""
     working_directory: /home/your-repo
-version: 2.0
 workflows:
   all:
     jobs:
