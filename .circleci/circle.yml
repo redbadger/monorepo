@@ -23,6 +23,9 @@ workflows:
     jobs:
       - build-api
       - build-web
-      - deploy
+      - deploy-api
           requires:
             - build-api
+      - deploy-web
+          requires:
+            - build-web
