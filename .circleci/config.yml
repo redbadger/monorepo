@@ -1,31 +1,35 @@
-version: 2.0
+---
+version: 2
 jobs:
   build:
     docker:
-      - image: node:7.10
-    workDir: /root/your-repo
+      -
+        image: "node:7.10"
     steps:
       - checkout
-     - run:
-          name: Run build
-          command: npm version
+      -
+        run:
+          command: "npm version"
+          name: "Run build"
+    workDir: /root/your-repo
   deploy:
     machine:
       enabled: true
-    working_directory: /home/your-repo
     steps:
       - checkout
-      - echo "Deploying"
-
+      - "echo \"Deploying\""
+    working_directory: /home/your-repo
+version: 2.0
 workflows:
-  version: 2
   all:
     jobs:
       - build-api
       - build-web
-      - deploy-api
+      -
+        deploy-api:
           requires:
             - build-api
-      - deploy-web
+      -
+        deploy-web:
           requires:
             - build-web
