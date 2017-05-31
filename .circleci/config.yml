@@ -1,17 +1,29 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/build
+  build-web:
+    working_directory: ~/web
     docker:
       - image: circleci/node:4.8.2
     steps:
       - checkout
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          name: wait
+          command: sleep 20
       - run:
           name: test
-          command: echo "Test"
+          command: echo "Build Web"
+  build-api:
+    working_directory: ~/api
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: wait
+          command: sleep 10
+      - run:
+          name: test
+          command: echo "Build Web"
   deploy:
     working_directory: ~/build
     docker:
@@ -29,7 +41,9 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - build-web
+      - build-api
       - deploy:
           requires:
-            - build
+            - build-web
+            - build-api
