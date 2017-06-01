@@ -8,6 +8,7 @@ steps:
 
   - command: "sleep 5 && echo API"
     label: "Build API"
+    skip: true
 
   - "wait"
 
