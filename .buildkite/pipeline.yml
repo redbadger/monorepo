@@ -1,0 +1,15 @@
+steps:
+  - command: "sleep 10 && echo Shared"
+    label: "Build Shared Libraries"
+
+  - command: "sleep 30 && echo Web && echo Done > artifact"
+    label: "Build Web"
+    artifact_paths: artifact
+
+  - command: "sleep 5 && echo API"
+    label: "Build API"
+
+  - "wait"
+
+  - command: "echo Deploy"
+    label: "Deploy"
