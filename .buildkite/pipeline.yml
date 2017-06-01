@@ -1,14 +1,14 @@
 steps:
-  - command: "exit 0"
+  - command: "sleep 10 && echo Shared"
     label: "Build Shared Libraries"
 
-  - command: "exit 0"
+  - command: "sleep 30 && echo Web"
     label: "Build Web"
 
-  - command: "exit 0"
+  - command: "sleep 5 && echo API"
     label: "Build API"
 
   - "wait"
 
-  - command: "exit 0"
+  - command: "echo Deploy"
     label: "Deploy"
