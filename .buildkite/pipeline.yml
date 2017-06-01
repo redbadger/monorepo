@@ -11,5 +11,7 @@ steps:
 
   - "wait"
 
+  - block: ':shipit: Release'
+
   - command: "echo Deploy"
     label: "Deploy"
