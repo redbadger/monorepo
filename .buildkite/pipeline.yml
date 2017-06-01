@@ -1,0 +1,14 @@
+steps:
+  - command: "exit 0"
+    label: "Build Shared Libraries"
+
+  - command: "exit 0"
+    label: "Build Web"
+
+  - command: "exit 0"
+    label: "Build API"
+
+  - "wait"
+
+  - command: "exit 0"
+    label: "Deploy"
