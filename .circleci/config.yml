@@ -1,35 +1,66 @@
----
 version: 2
 jobs:
-  build:
+  build-web:
+    working_directory: ~/web
     docker:
-      -
-        image: "node:7.10"
+      - image: circleci/node:4.8.2
     steps:
       - checkout
-      -
-        run:
-          command: "npm version"
-          name: "Run build"
-    workDir: /root/your-repo
+      - run:
+          name: wait
+          command: sleep 20
+      - run:
+          name: test
+          command: echo "Build Web"
+  build-api:
+    working_directory: ~/api
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: wait
+          command: sleep 10
+      - run:
+          name: test
+          command: echo "Build Web"
+  build-shared:
+    working_directory: ~/shared
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: wait
+          command: sleep 30
+      - run:
+          name: test
+          command: echo "Build Shared"
   deploy:
-    machine:
-      enabled: true
+    working_directory: ~/build
+    docker:
+      - image: circleci/node:4.8.2
     steps:
       - checkout
-      - "echo \"Deploying\""
-    working_directory: /home/your-repo
-version: 2.0
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - run:
+          name: test
+          command: echo "Test"
+
 workflows:
-  all:
+  version: 2
+  build-and-deploy:
     jobs:
-      - build-api
-      - build-web
-      -
-        deploy-api:
+      - build-shared
+      - build-web:
           requires:
-            - build-api
-      -
-        deploy-web:
+            - build-shared
+      - build-api:
+          requires:
+            - build-shared
+      - deploy:
           requires:
             - build-web
+            - build-api

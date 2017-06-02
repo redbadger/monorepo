@@ -1,0 +1,16 @@
+steps:
+  - command: "sleep 10 && echo Shared"
+    label: "Build Shared Libraries"
+
+  - command: "sleep 30 && echo Web && echo Done > artifact"
+    label: "Build Web"
+    artifact_paths: artifact
+
+  - trigger: api
+
+  - "wait"
+
+  - block: ':shipit: Release'
+
+  - command: "echo Deploy"
+    label: "Deploy"
