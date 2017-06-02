@@ -6,8 +6,7 @@ steps:
     label: "Build Web"
     artifact_paths: artifact
 
-  - command: "sleep 5 && echo API"
-    label: "Build API"
+  - trigger: api
 
   - "wait"
 
